@@ -14,6 +14,8 @@ Create a `.env.local` file in the root of your project directory and add your en
 # Example environment variables
 NEXT_PUBLIC_API_URL=https://api.example.com
 NEXT_PUBLIC_API_KEY=your_api_key
+# API key for OpenAI services
+OPENAI_API_KEY=your_api_key
 ```
 
 ### Installing Dependencies
