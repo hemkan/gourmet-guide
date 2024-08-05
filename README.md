@@ -2,6 +2,36 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) installed.
+
+### Setting Up Environment Variables
+
+Create a `.env.local` file in the root of your project directory and add your environment variables. For example:
+
+```env
+# Example environment variables
+NEXT_PUBLIC_API_URL=https://api.example.com
+NEXT_PUBLIC_API_KEY=your_api_key
+```
+
+### Installing Dependencies
+
+Install the necessary dependencies by running:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+### Running the Development Server
+
 First, run the development server:
 
 ```bash
