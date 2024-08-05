@@ -1,3 +1,4 @@
+"use client";
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import OpenAI from "openai";
