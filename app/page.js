@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { Typography, Button, Box } from '@mui/material';
-import { auth } from '@/firebase';
+import { auth } from '@/app/firebase';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log('Auth State Changed:', user); // Debugging
       if (user) {
         setUser(user);
       } else {
