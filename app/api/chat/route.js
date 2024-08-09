@@ -32,10 +32,24 @@ export async function POST(req) {
     stream: true,
   });
 
-  let fullResponse = "";
-  for await (const chunk of completions) {
-    fullResponse += chunk.choices[0]?.delta?.content || "";
-  }
+  const stream = new ReadableStream({
+    async start(controller) {
+      const encoder = new TextEncoder();
+      try {
+        for await (const chunk of completions) {
+          const content = chunk.choices[0]?.delta?.content;
+          if (content) {
+            const text = encoder.encode(content);
+            controller.enqueue(text);
+          }
+        }
+      } catch (err) {
+        controller.error(err);
+      } finally {
+        controller.close();
+      }
+    },
+  });
 
-  return NextResponse.json(fullResponse);
+  return new NextResponse(stream);
 }
