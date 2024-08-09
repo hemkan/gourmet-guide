@@ -22,6 +22,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { ThreeDots } from "react-loader-spinner";
 
+
 const CustomButton = styled(Button)`
   background: black;
   color: white;
@@ -198,6 +199,7 @@ export default function Auth() {
                 textDecoration: "none",
                 color: "primary.main",
               }}
+
             >
               Already have an account? Login
             </Link>
