@@ -1,8 +1,10 @@
 "use client";
 
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { auth } from "@/app/firebase";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -14,6 +16,8 @@ export default function Home() {
   ]);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(undefined);
+  const router = useRouter();
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -85,6 +89,52 @@ export default function Home() {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        router.push("/auth");
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      setUser(null);
+      router.push("/auth"); // Redirect to /auth after logging out
+    } catch (error) {
+      console.error("Error logging out", error);
+    }
+  };
+
+  if (user === undefined) {
+    return (
+      <Box
+        width="100vw"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <ThreeDots
+          visible={true}
+          height="100"
+          width="100"
+          color="#000"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </Box>
+    );
+  }
+
   return (
     <Box
       width="100vw"
@@ -102,6 +152,22 @@ export default function Home() {
         p={2}
         spacing={3}
       >
+        <Stack
+          borderBottom={"0.5px solid gray"}
+          display="flex"
+          flexDirection={"row"}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="h7" p={2} spacing={2}>
+            Headstarter Restaurant Support
+          </Typography>
+          {user && (
+            <Button variant="contained" color="primary" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
+        </Stack>
         <Stack
           direction={"column"}
           spacing={2}
