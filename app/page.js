@@ -2,6 +2,7 @@
 
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -83,18 +84,85 @@ export default function Home() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
   return (
-    <Box>
-      <Stack>
-        <Stack overflow="auto">
+    <Box
+      width="100vw"
+      height="100vh"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Stack
+        direction={"column"}
+        width="80%"
+        height="95%"
+        border="0.5px solid gray"
+        p={2}
+        spacing={3}
+      >
+        <Stack
+          direction={"column"}
+          spacing={2}
+          flexGrow={1}
+          overflow="auto"
+          maxHeight="100%"
+          sx={{
+            "&::-webkit-scrollbar": {
+              width: "0.4em",
+            },
+            "&::-webkit-scrollbar-track": {
+              background: "#f1f1f1",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#888",
+              borderRadius: "10px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              background: "#ACACAC",
+            },
+          }}
+          p={2}
+        >
           {messages.map((message, index) => (
-            <Box key={index}>
-              <Box>{message.content}</Box>
+            <Box
+              key={index}
+              display="flex"
+              justifyContent={
+                message.role === "assistant" ? "flex-start" : "flex-end"
+              }
+            >
+              <Box
+                bgcolor={
+                  message.role === "assistant"
+                    ? "primary.main"
+                    : "secondary.main"
+                }
+                color="white"
+                borderRadius={3}
+                p={2}
+              >
+                {message.content === "" && message.role === "assistant" ? (
+                  <ThreeDots
+                    visible={true}
+                    height="30"
+                    width="30"
+                    color="#fff"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  message.content
+                )}
+              </Box>
             </Box>
           ))}
           <div ref={messagesEndRef} />
         </Stack>
-        <Stack>
+        <Stack direction={"row"} spacing={2}>
           <TextField
             label="Message"
             fullWidth
@@ -107,7 +175,7 @@ export default function Home() {
             onClick={sendMessage}
             disabled={isLoading}
           >
-            {isLoading ? "Sending..." : "Send"}
+            Send
           </Button>
         </Stack>
       </Stack>
