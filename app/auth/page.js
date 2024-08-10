@@ -1,12 +1,27 @@
-'use client'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { auth } from '@/app/firebase'
-import { Box, Typography, TextField, Button, IconButton, Link } from '@mui/material'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth'
-import { styled } from '@mui/material/styles'
-import GoogleIcon from '@mui/icons-material/Google'
-import GitHubIcon from '@mui/icons-material/GitHub'
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "@/app/firebase";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+  Link,
+} from "@mui/material";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+} from "firebase/auth";
+import { styled } from "@mui/material/styles";
+import GoogleIcon from "@mui/icons-material/Google";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { ThreeDots } from "react-loader-spinner";
+
 
 const CustomButton = styled(Button)`
   background: black;
@@ -46,106 +61,132 @@ const PageContainer = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(#F3C5A1, #F39C12);
+  background: linear-gradient(#f3c5a1, #f39c12);
 `;
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   margin: theme.spacing(1, 0),
-  '& .MuiInputLabel-root': {
+  "& .MuiInputLabel-root": {
     color: theme.palette.text.primary,
   },
-  '& .MuiInputBase-root': {
+  "& .MuiInputBase-root": {
     borderRadius: 8,
     backgroundColor: theme.palette.background.paper,
-    '& fieldset': {
+    "& fieldset": {
       borderColor: theme.palette.divider,
     },
-    '&:hover fieldset': {
+    "&:hover fieldset": {
       borderColor: theme.palette.primary.main,
     },
-    '&.Mui-focused fieldset': {
+    "&.Mui-focused fieldset": {
       borderColor: theme.palette.primary.main,
     },
   },
 }));
 
 export default function Auth() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isRegistering, setIsRegistering] = useState(false)
-  
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        router.replace('/')
+        router.replace("/");
+      } else {
+        setLoading(false);
       }
-    })
+    });
 
     return () => {
-      unsubscribe()
-    }
-  }, [router])
+      unsubscribe();
+    };
+  }, [router]);
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password)
-      router.replace('/')
+      await signInWithEmailAndPassword(auth, email, password);
+      router.replace("/");
     } catch (error) {
-      console.error('Error logging in', error)
+      console.error("Error logging in", error);
     }
-  }
+  };
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
-      router.replace('/')
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.replace("/");
     } catch (error) {
-      console.error('Error registering', error)
+      console.error("Error registering", error);
     }
-  }
+  };
 
   const handleGoogleLogin = async () => {
-    const googleProvider = new GoogleAuthProvider()
+    const googleProvider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, googleProvider)
-      router.replace('/')
+      await signInWithPopup(auth, googleProvider);
+      router.replace("/");
     } catch (error) {
-      console.error('Error logging in with Google', error)
+      console.error("Error logging in with Google", error);
     }
-  }
+  };
 
   const handleGithubLogin = async () => {
-    const githubProvider = new GithubAuthProvider()
+    const githubProvider = new GithubAuthProvider();
     try {
-      await signInWithPopup(auth, githubProvider)
-      router.replace('/')
+      await signInWithPopup(auth, githubProvider);
+      router.replace("/");
     } catch (error) {
-      console.error('Error logging in with GitHub', error)
+      console.error("Error logging in with GitHub", error);
     }
+  };
+
+  if (loading) {
+    return (
+      <Box
+        width="100vw"
+        height="100vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <ThreeDots
+          visible={true}
+          height="100"
+          width="100"
+          color="#000"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </Box>
+    );
   }
 
   return (
     <PageContainer>
       <LoginCard>
         <Typography variant="h5" gutterBottom>
-          {isRegistering ? 'Register' : 'Login'}
+          {isRegistering ? "Register" : "Login"}
         </Typography>
-        <StyledTextField 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          label="Email" 
-          fullWidth 
+        <StyledTextField
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          label="Email"
+          fullWidth
         />
-        <StyledTextField 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-          label="Password" 
-          type="password" 
-          fullWidth 
+        <StyledTextField
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          label="Password"
+          type="password"
+          fullWidth
         />
         <CustomButton onClick={isRegistering ? handleRegister : handleLogin}>
-          {isRegistering ? 'Register' : 'Login'}
+          {isRegistering ? "Register" : "Login"}
         </CustomButton>
         <Box mt={2}>
           {isRegistering ? (
@@ -153,7 +194,12 @@ export default function Auth() {
               href="#"
               onClick={() => setIsRegistering(false)}
               variant="body2"
-              sx={{ cursor: 'pointer', textDecoration: 'none', color: 'primary.main' }}
+              sx={{
+                cursor: "pointer",
+                textDecoration: "none",
+                color: "primary.main",
+              }}
+
             >
               Already have an account? Login
             </Link>
@@ -162,7 +208,11 @@ export default function Auth() {
               href="#"
               onClick={() => setIsRegistering(true)}
               variant="body2"
-              sx={{ cursor: 'pointer', textDecoration: 'none', color: 'primary.main' }}
+              sx={{
+                cursor: "pointer",
+                textDecoration: "none",
+                color: "primary.main",
+              }}
             >
               Don&apos;t have an account? Register
             </Link>
@@ -178,5 +228,5 @@ export default function Auth() {
         </Box>
       </LoginCard>
     </PageContainer>
-  )
+  );
 }
