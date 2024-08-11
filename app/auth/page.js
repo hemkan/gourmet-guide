@@ -21,17 +21,21 @@ import { styled } from "@mui/material/styles";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { ThreeDots } from "react-loader-spinner";
-
+import "@fontsource-variable/manrope";
+import "@fontsource-variable/raleway";
+import { Divider } from "@mui/material";
 
 const CustomButton = styled(Button)`
   background: black;
   color: white;
   width: 100%;
   max-width: 500px;
+  margin: 0.5rem 0;
   &:hover {
-    background: white;
-    color: black;
+    background: #2d8b6d;
+    color: white;
   }
+  font-family: "Manrope Variable";
 `;
 
 const LoginCard = styled(Box)`
@@ -42,9 +46,10 @@ const LoginCard = styled(Box)`
   width: 100%;
   max-width: 500px;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.4);
+  background: #f2d1b3;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 1rem;
 `;
 
 const IconButtonStyled = styled(IconButton)`
@@ -61,7 +66,7 @@ const PageContainer = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(#f3c5a1, #f39c12);
+  background: linear-gradient(#f3c5a1, #ffbea3);
 `;
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -169,9 +174,52 @@ export default function Auth() {
   return (
     <PageContainer>
       <LoginCard>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h4" gutterBottom fontFamily="Manrope Variable">
           {isRegistering ? "Register" : "Login"}
         </Typography>
+
+        <Box mt={2} mb={2} display="flex" justifyContent="center" gap={2}>
+          <Box
+            borderRadius={50}
+            border="1px solid black"
+            // fill on hover
+            sx={{
+              "&:hover": {
+                backgroundColor: "#F28C8C",
+                border: "1px solid #F28C8C",
+                color: "white",
+              },
+              transition: "background-color 0.3s, color 0.3s",
+            }}
+          >
+            <IconButtonStyled onClick={handleGoogleLogin}>
+              <GoogleIcon />
+            </IconButtonStyled>
+          </Box>
+          <Box
+            borderRadius={50}
+            border="1px solid black"
+            sx={{
+              "&:hover": {
+                backgroundColor: "black",
+                color: "white",
+              },
+              transition: "background-color 0.3s, color 0.3s",
+            }}
+          >
+            <IconButtonStyled onClick={handleGithubLogin}>
+              <GitHubIcon />
+            </IconButtonStyled>
+          </Box>
+        </Box>
+        <Divider
+          sx={{
+            width: "100%",
+            mb: 2,
+          }}
+        >
+          OR
+        </Divider>
         <StyledTextField
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -188,6 +236,7 @@ export default function Auth() {
         <CustomButton onClick={isRegistering ? handleRegister : handleLogin}>
           {isRegistering ? "Register" : "Login"}
         </CustomButton>
+
         <Box mt={2}>
           {isRegistering ? (
             <Link
@@ -199,7 +248,7 @@ export default function Auth() {
                 textDecoration: "none",
                 color: "primary.main",
               }}
-
+              textAlign="center"
             >
               Already have an account? Login
             </Link>
@@ -213,18 +262,11 @@ export default function Auth() {
                 textDecoration: "none",
                 color: "primary.main",
               }}
+              textAlign="center"
             >
               Don&apos;t have an account? Register
             </Link>
           )}
-        </Box>
-        <Box mt={2} display="flex" justifyContent="center" gap={2}>
-          <IconButtonStyled onClick={handleGoogleLogin}>
-            <GoogleIcon />
-          </IconButtonStyled>
-          <IconButtonStyled onClick={handleGithubLogin}>
-            <GitHubIcon />
-          </IconButtonStyled>
         </Box>
       </LoginCard>
     </PageContainer>
