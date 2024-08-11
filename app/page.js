@@ -161,6 +161,7 @@ export default function Home() {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        sx={{ backgroundImage: "linear-gradient(#f3c5a1, #ffbea3)" }}
       >
         <ThreeDots
           visible={true}
@@ -187,7 +188,7 @@ export default function Home() {
         alignItems="center"
         p={2}
         position="relative"
-        sx={{ backgroundColor: "#ffbea3" }}
+        sx={{ backgroundImage: "linear-gradient(#f3c5a1, #ffbea3)" }}
       >
         <Typography
           variant="h4"

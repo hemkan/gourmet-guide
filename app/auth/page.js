@@ -156,6 +156,7 @@ export default function Auth() {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        sx={{ backgroundImage: "linear-gradient(#f3c5a1, #ffbea3)" }}
       >
         <ThreeDots
           visible={true}
