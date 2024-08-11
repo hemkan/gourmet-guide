@@ -27,7 +27,7 @@ export default function Home() {
     {
       role: "assistant",
       content:
-        "Hi! I'm the Headstarter Restaurant support assistant. How can I help you today?",
+        "Hi! I'm Gourmet Guide, your personal cooking assistant. How can I help you today?",
     },
   ]);
   const [message, setMessage] = useState("");
@@ -329,12 +329,11 @@ export default function Home() {
                   transition: "background-color 0.3s, color 0.3s",
                 }}
                 onClick={() =>
-                  // set message to Hi! I'm the Headstarter Restaurant support assistant. How can I help you today?
                   setMessages([
                     {
                       role: "assistant",
                       content:
-                        "Hi! I'm the Headstarter Restaurant support assistant. How can I help you today?",
+                        "Hi! I'm Gourmet Guide, your personal cooking assistant. How can I help you today?",
                     },
                   ])
                 }
