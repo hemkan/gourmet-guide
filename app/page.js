@@ -1,22 +1,41 @@
 "use client";
 
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { auth } from "@/app/firebase";
 import { useRouter } from "next/navigation";
+import { styled } from "@mui/material/styles";
+import { Gradient } from "@mui/icons-material";
+import "@fontsource-variable/manrope";
+import "@fontsource-variable/raleway";
+import { IconButton } from "@mui/material";
+import { VscClearAll } from "react-icons/vsc";
+import { IoLogOutOutline } from "react-icons/io5";
+import { FaAngleDoubleDown } from "react-icons/fa";
+import { IoSend } from "react-icons/io5";
 
 export default function Home() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
       content:
-        "Hi! I'm the Headstarter Restaurant support assistant. How can I help you today?",
+        "Hi! I'm Gourmet Guide, your personal cooking assistant. How can I help you today?",
     },
   ]);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(undefined);
+  const [isScrollable, setIsScrollable] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(true);
+
   const router = useRouter();
 
   const sendMessage = async () => {
@@ -85,8 +104,24 @@ export default function Home() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  //   in progress
+  const checkIfScrollable = () => {
+    const element = messagesEndRef.current?.parentElement;
+    if (element) {
+      setIsScrollable(element.scrollHeight > element.clientHeight);
+      const isAtBottom =
+        element.scrollHeight - element.scrollTop === element.clientHeight;
+      if (isAtBottom) {
+        setIsAtBottom(true);
+      } else {
+        setIsAtBottom(false);
+      }
+    }
+  };
+
   useEffect(() => {
     scrollToBottom();
+    checkIfScrollable();
   }, [messages]);
 
   useEffect(() => {
@@ -94,7 +129,8 @@ export default function Home() {
       if (user) {
         setUser(user);
       } else {
-        router.push("/auth");
+        // router.push("/auth");
+        setUser(null);
       }
     });
     return () => {
@@ -105,13 +141,18 @@ export default function Home() {
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      setUser(null);
+      setUser(undefined);
       router.push("/auth"); // Redirect to /auth after logging out
     } catch (error) {
       console.error("Error logging out", error);
     }
   };
+  const handleLogin = () => {
+    setUser(undefined);
+    router.push("/auth");
+  };
 
+  const isSmallScreen = useMediaQuery("(max-width:500px)");
   if (user === undefined) {
     return (
       <Box
@@ -120,6 +161,7 @@ export default function Home() {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        sx={{ backgroundImage: "linear-gradient(#f3c5a1, #ffbea3)" }}
       >
         <ThreeDots
           visible={true}
@@ -135,6 +177,88 @@ export default function Home() {
     );
   }
 
+  if (user === null) {
+    return (
+      <Box
+        width="100vw"
+        height="100vh"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        p={2}
+        position="relative"
+        sx={{ backgroundImage: "linear-gradient(#f3c5a1, #ffbea3)" }}
+      >
+        <Typography
+          variant="h4"
+          textAlign="center"
+          fontFamily="Manrope Variable"
+          fontWeight={"bold"}
+        >
+          Welcome to Gourmet Guide
+        </Typography>
+        {/* background img */}
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          position="relative"
+        >
+          <img
+            src="/yellow-bg.svg"
+            alt="yellow-bg"
+            style={{
+              width: "20rem",
+              position: "absolute",
+              zIndex: 0,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          />
+
+          <img
+            src="/IceCreamDoodle.svg"
+            alt="Ice Cream Doodle"
+            style={{
+              width: "30rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+              zIndex: 1,
+            }}
+          />
+        </Box>
+        <Typography
+          variant="h6"
+          textAlign="center"
+          marginBottom={2}
+          fontFamily={"Raleway Variable"}
+        >
+          Your personal cooking assistant to help you with your cooking needs.
+        </Typography>
+
+        <Button
+          variant="contained"
+          onClick={handleLogin}
+          fontFamily="Manrope Variable"
+          sx={{
+            backgroundColor: "#42bb94",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "#2D8B6D",
+              color: "#white",
+            },
+          }}
+        >
+          Get Started
+        </Button>
+      </Box>
+    );
+  }
+
   return (
     <Box
       width="100vw"
@@ -143,106 +267,264 @@ export default function Home() {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      sx={{ backgroundImage: "linear-gradient(#f3c5a1, #ffbea3)" }}
     >
       <Stack
         direction={"column"}
-        width="80%"
-        height="95%"
-        border="0.5px solid gray"
         p={2}
         spacing={3}
+        sx={{
+          borderRadius: 3,
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          boxSizing: "border-box",
+          overflow: "hidden",
+        }}
+        bgcolor={"#f2d1b3"}
+        width={isSmallScreen ? "100%" : "80%"}
+        height={isSmallScreen ? "100%" : "95%"}
       >
         <Stack
-          borderBottom={"0.5px solid gray"}
+          borderBottom={"0.5px solid #C4C4C4"}
           display="flex"
           flexDirection={"row"}
           justifyContent="space-between"
           alignItems="center"
+          sx={{ paddingBottom: "0.5rem" }}
         >
-          <Typography variant="h7" p={2} spacing={2}>
-            Headstarter Restaurant Support
+          <Typography
+            variant="h5"
+            p={2}
+            spacing={2}
+            fontFamily={"Manrope Variable"}
+          >
+            Gourmet Guide
           </Typography>
-          {user && (
-            <Button variant="contained" color="primary" onClick={handleLogout}>
-              Logout
-            </Button>
-          )}
-        </Stack>
-        <Stack
-          direction={"column"}
-          spacing={2}
-          flexGrow={1}
-          overflow="auto"
-          maxHeight="100%"
-          sx={{
-            "&::-webkit-scrollbar": {
-              width: "0.4em",
-            },
-            "&::-webkit-scrollbar-track": {
-              background: "#f1f1f1",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "#888",
-              borderRadius: "10px",
-            },
-            "&::-webkit-scrollbar-thumb:hover": {
-              background: "#ACACAC",
-            },
-          }}
-          p={2}
-        >
-          {messages.map((message, index) => (
+          <Box
+            display={"flex"}
+            flexDirection={"row"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            p={2}
+          >
             <Box
-              key={index}
-              display="flex"
-              justifyContent={
-                message.role === "assistant" ? "flex-start" : "flex-end"
-              }
+              borderRadius={50}
+              border="1px solid black"
+              color="black"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#f28c8c",
+                  border: "1px solid #f28c8c",
+                  color: "transparent",
+                },
+                transition: "background-color 0.3s, color 0.3s",
+              }}
+              mr={2}
             >
-              <Box
-                bgcolor={
-                  message.role === "assistant"
-                    ? "primary.main"
-                    : "secondary.main"
+              <IconButton
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    color: "white",
+                  },
+                  transition: "background-color 0.3s, color 0.3s",
+                }}
+                onClick={() =>
+                  setMessages([
+                    {
+                      role: "assistant",
+                      content:
+                        "Hi! I'm Gourmet Guide, your personal cooking assistant. How can I help you today?",
+                    },
+                  ])
                 }
-                color="white"
-                borderRadius={3}
-                p={2}
               >
-                {message.content === "" && message.role === "assistant" ? (
-                  <ThreeDots
-                    visible={true}
-                    height="30"
-                    width="30"
-                    color="#fff"
-                    radius="9"
-                    ariaLabel="three-dots-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                  />
-                ) : (
-                  message.content
-                )}
-              </Box>
+                <VscClearAll />
+              </IconButton>
             </Box>
-          ))}
-          <div ref={messagesEndRef} />
+            {user && (
+              <Box
+                borderRadius={50}
+                border="1px solid black"
+                color="black"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#2d3d8b",
+                    border: "1px solid #2d3d8b",
+                    color: "transparent",
+                  },
+                  transition: "background-color 0.3s, color 0.3s",
+                }}
+              >
+                <IconButton
+                  onClick={handleLogout}
+                  bgcolor={"#7FBBCA"}
+                  sx={{
+                    color: "black",
+                    "&:hover": {
+                      color: "white",
+                    },
+                    transition: "background-color 0.3s, color 0.3s",
+                  }}
+                >
+                  <IoLogOutOutline />
+                </IconButton>
+              </Box>
+              //   <Button
+              //     variant="contained"
+              //     onClick={handleLogout}
+              //     fontFamily={"Manrope Variable"}
+              //     bgcolor={"#7FBBCA"}
+              //     sx={{
+              //       backgroundColor: "#5851d8",
+
+              //       "&:hover": {
+              //         backgroundColor: "#405de6",
+              //         color: "#white",
+              //       },
+              //     }}
+              //   >
+              //     Logout
+              //   </Button>
+            )}
+          </Box>
         </Stack>
-        <Stack direction={"row"} spacing={2}>
+        <Box
+          position="relative"
+          //   direction={"column"}
+          flexGrow={1}
+          overflow="hidden"
+          maxHeight="100%"
+          sx={{ marginTop: "0rem !important" }}
+        >
+          <Stack
+            p={2}
+            direction={"column"}
+            overflow={"auto"}
+            height="100%"
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "0.4em",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "transparent",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "#888",
+                borderRadius: "10px",
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                background: "#ACACAC",
+              },
+            }}
+          >
+            {messages.map((message, index) => (
+              <Box
+                key={index}
+                display="flex"
+                justifyContent={
+                  message.role === "assistant" ? "flex-start" : "flex-end"
+                }
+                sx={{ mb: "1rem" }}
+              >
+                <Box
+                  bgcolor={
+                    message.role === "assistant" ? "#833ab4" : "#e1306c "
+                  }
+                  color={message.role === "assistant" ? "white" : "white"}
+                  borderRadius={3}
+                  maxWidth="80%"
+                  p={2}
+                >
+                  {message.content === "" && message.role === "assistant" ? (
+                    <ThreeDots
+                      visible={true}
+                      height="30"
+                      width="30"
+                      color="#fff"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    message.content
+                  )}
+                </Box>
+              </Box>
+            ))}
+            <div ref={messagesEndRef} />
+          </Stack>
+          {/* on click, scroll to bottom (aka messagesEndRef); hide if scrhollbar not there */}
+          {isScrollable && !isAtBottom && (
+            <Box
+              borderRadius={50}
+              border="1px solid #F2E8CF"
+              boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+              backgroundColor="#F2E8CF"
+              sx={{
+                position: "absolute",
+                bottom: 15,
+                right: 15,
+                color: "black",
+              }}
+              size={15}
+            >
+              <IconButton
+                onClick={scrollToBottom}
+                sx={{
+                  color: "black",
+                }}
+              >
+                <FaAngleDoubleDown size={15} />
+              </IconButton>
+            </Box>
+          )}
+        </Box>
+        <Stack
+          direction={"row"}
+          spacing={2}
+          sx={{ marginTop: "0rem !important" }}
+        >
           <TextField
             label="Message"
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
             disabled={isLoading}
           />
-          <Button
-            variant="contained"
-            onClick={sendMessage}
-            disabled={isLoading}
+          <Box
+            borderRadius={50}
+            border="1px solid #2d3d8b"
+            backgroundColor="#2d3d8b"
+            sx={{
+              "&:hover": {
+                backgroundColor: "transparent",
+                border: "1px solid #2d3d8b",
+              },
+              transition: "background-color 0.3s, color 0.3s",
+            }}
+            size={25}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
           >
-            Send
-          </Button>
+            <IconButton
+              onClick={sendMessage}
+              disabled={isLoading}
+              color={"#f2d1b3"}
+              sx={{
+                marginLeft: "0.5rem !important",
+                color: "#f2d1b3",
+                "&:hover": {
+                  color: "#2d3d8b",
+                },
+                transition: "background-color 0.3s, color 0.3s",
+              }}
+            >
+              <IoSend size={30} />
+            </IconButton>
+          </Box>
         </Stack>
       </Stack>
     </Box>
