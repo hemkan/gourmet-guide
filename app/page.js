@@ -236,6 +236,7 @@ export default function Home() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              overflow: "hidden",
             }}
           />
 
@@ -243,12 +244,14 @@ export default function Home() {
             src="/IceCreamDoodle.svg"
             alt="Ice Cream Doodle"
             style={{
-              width: "30rem",
+              width: "80%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
               zIndex: 1,
+              marginTop: "5%",
+              marginBottom: "5%",
             }}
           />
         </Box>
