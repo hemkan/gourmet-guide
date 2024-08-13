@@ -34,7 +34,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(undefined);
   const [isScrollable, setIsScrollable] = useState(false);
-  const [isAtBottom, setIsAtBottom] = useState(true);
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   const router = useRouter();
 
@@ -99,29 +99,15 @@ export default function Home() {
   };
 
   const messagesEndRef = useRef(null);
+  const messagesContainer = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  //   in progress
-  const checkIfScrollable = () => {
-    const element = messagesEndRef.current?.parentElement;
-    if (element) {
-      setIsScrollable(element.scrollHeight > element.clientHeight);
-      const isAtBottom =
-        element.scrollHeight - element.scrollTop === element.clientHeight;
-      if (isAtBottom) {
-        setIsAtBottom(true);
-      } else {
-        setIsAtBottom(false);
-      }
-    }
-  };
-
+  // scroll to bottom as message appears
   useEffect(() => {
     scrollToBottom();
-    checkIfScrollable();
   }, [messages]);
 
   useEffect(() => {
@@ -137,6 +123,41 @@ export default function Home() {
       unsubscribe();
     };
   }, []);
+
+  // fix general scroll issue on mobile
+  useEffect(() => {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    setVh();
+
+    window.addEventListener("resize", setVh);
+    return () => {
+      window.removeEventListener("resize", setVh);
+    };
+  }, []);
+
+  // make scroll to bottom button appear if not at bottom
+  useEffect(() => {
+    if (!messagesContainer.current) return;
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight, offsetHeight } =
+        messagesContainer.current;
+
+      // if scrolled more than 10 pixels from bottom, make button appear
+      if (scrollHeight - 10 >= scrollTop + offsetHeight) {
+        setIsAtBottom(true);
+      } else {
+        setIsAtBottom(false);
+      }
+    };
+
+    messagesContainer.current.addEventListener("scroll", handleScroll);
+    return () => {
+      messagesContainer.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, [messagesContainer.current]);
 
   const handleLogout = async () => {
     try {
@@ -397,6 +418,7 @@ export default function Home() {
           sx={{ marginTop: "0rem !important" }}
         >
           <Stack
+            ref={messagesContainer}
             p={2}
             direction={"column"}
             overflow={"auto"}
@@ -455,7 +477,7 @@ export default function Home() {
             <div ref={messagesEndRef} />
           </Stack>
           {/* on click, scroll to bottom (aka messagesEndRef); hide if scrhollbar not there */}
-          {isScrollable && !isAtBottom && (
+          {isAtBottom && (
             <Box
               borderRadius={50}
               border="1px solid #F2E8CF"
