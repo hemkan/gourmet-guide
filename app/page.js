@@ -308,7 +308,9 @@ export default function Home() {
         height={isSmallScreen ? "100%" : "95%"}
       >
         <Stack
-          borderBottom={"0.5px solid #C4C4C4"}
+          // border bottom transparent to 50% opacity
+
+          borderBottom={"0.5px solid rgba(128, 128, 128, 0.5)"}
           display="flex"
           flexDirection={"row"}
           justifyContent="space-between"
