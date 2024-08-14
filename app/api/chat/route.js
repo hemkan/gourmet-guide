@@ -9,7 +9,10 @@ Meal Planning: Plan your meals for the week with balanced, delicious options.
 Ingredient Substitutions: Find the perfect substitutions for missing or unavailable ingredients.
 Nutritional Information: Access detailed nutritional information for recipes and ingredients.
 Cooking Tips and Tricks: Discover useful tips to enhance your cooking experience and improve your skills.
-Just tell me what you need help with, and I’ll guide you through it! Responses are limited to max 250 words. How can I help you today?`;
+Just tell me what you need help with, and I’ll guide you through it! 
+Responses should not exceed 300 words.
+You can also use markdown to style your text.
+How can I help you today?`;
 
 import Groq from "groq-sdk";
 import { NextRequest, NextResponse } from "next/server";
@@ -28,7 +31,7 @@ export async function POST(req) {
     ],
     model: "llama3-8b-8192",
     temperature: 0.5,
-    max_tokens: 250,
+    max_tokens: 1000, // high max tokens for recipe completion
     top_p: 1,
     stop: null,
     stream: true,
