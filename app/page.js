@@ -20,9 +20,11 @@ import { IconButton } from "@mui/material";
 import { VscClearAll } from "react-icons/vsc";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaAngleDoubleDown } from "react-icons/fa";
-import { IoSend } from "react-icons/io5";
+import { IoSend, IoDownloadOutline } from "react-icons/io5";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { saveAs } from "file-saver";
+import { jsPDF } from "jspdf";
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -98,6 +100,17 @@ export default function Home() {
       event.preventDefault();
       sendMessage();
     }
+  };
+
+  const downloadChat = () => {
+    // remove markdown. stitch messages together and download as txt file
+    const chatContent = messages
+      .map((msg) => `${msg.role}: ${msg.content.replace(/[*_~`]/g, "")}`)
+      .join("\n\n");
+
+    const blob = new Blob([chatContent], { type: "text/plain;charset=utf-8" });
+
+    saveAs(blob, "chat-history.txt");
   };
 
   const messagesEndRef = useRef(null);
@@ -246,7 +259,7 @@ export default function Home() {
             src="/IceCreamDoodle.svg"
             alt="Ice Cream Doodle"
             style={{
-              width: "80%",
+              width: "18rem",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -334,7 +347,35 @@ export default function Home() {
           >
             <Box
               borderRadius={50}
-              border="1px solid black"
+              border="1px solid rgba(0, 0, 0, 0.5)"
+              color="black"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#2D8B6D",
+                  border: "1px solid #2D8B6D",
+                  color: "transparent",
+                },
+                transition: "background-color 0.3s, color 0.3s",
+              }}
+              mr={2}
+            >
+              <IconButton
+                sx={{
+                  color: "rgba(0, 0, 0, 0.5)",
+                  "&:hover": {
+                    color: "white",
+                  },
+                  transition: "background-color 0.3s, color 0.3s",
+                }}
+                onClick={downloadChat}
+                disabled={isLoading}
+              >
+                <IoDownloadOutline />
+              </IconButton>
+            </Box>
+            <Box
+              borderRadius={50}
+              border="1px solid rgba(0, 0, 0, 0.5)"
               color="black"
               sx={{
                 "&:hover": {
@@ -348,7 +389,7 @@ export default function Home() {
             >
               <IconButton
                 sx={{
-                  color: "black",
+                  color: "rgba(0, 0, 0, 0.5)",
                   "&:hover": {
                     color: "white",
                   },
@@ -363,6 +404,7 @@ export default function Home() {
                     },
                   ])
                 }
+                disabled={isLoading}
               >
                 <VscClearAll />
               </IconButton>
@@ -370,7 +412,7 @@ export default function Home() {
             {user && (
               <Box
                 borderRadius={50}
-                border="1px solid black"
+                border="1px solid rgba(0, 0, 0, 0.5)"
                 color="black"
                 sx={{
                   "&:hover": {
@@ -385,7 +427,7 @@ export default function Home() {
                   onClick={handleLogout}
                   bgcolor={"#7FBBCA"}
                   sx={{
-                    color: "black",
+                    color: "rgba(0, 0, 0, 0.5)",
                     "&:hover": {
                       color: "white",
                     },
@@ -395,28 +437,11 @@ export default function Home() {
                   <IoLogOutOutline />
                 </IconButton>
               </Box>
-              //   <Button
-              //     variant="contained"
-              //     onClick={handleLogout}
-              //     fontFamily={"Manrope Variable"}
-              //     bgcolor={"#7FBBCA"}
-              //     sx={{
-              //       backgroundColor: "#5851d8",
-
-              //       "&:hover": {
-              //         backgroundColor: "#405de6",
-              //         color: "#white",
-              //       },
-              //     }}
-              //   >
-              //     Logout
-              //   </Button>
             )}
           </Box>
         </Stack>
         <Box
           position="relative"
-          //   direction={"column"}
           flexGrow={1}
           overflow="hidden"
           maxHeight="100%"
