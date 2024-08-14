@@ -21,6 +21,8 @@ import { VscClearAll } from "react-icons/vsc";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaAngleDoubleDown } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -308,8 +310,6 @@ export default function Home() {
         height={isSmallScreen ? "100%" : "95%"}
       >
         <Stack
-          // border bottom transparent to 50% opacity
-
           borderBottom={"0.5px solid rgba(128, 128, 128, 0.5)"}
           display="flex"
           flexDirection={"row"}
@@ -457,10 +457,23 @@ export default function Home() {
                   bgcolor={
                     message.role === "assistant" ? "#833ab4" : "#e1306c "
                   }
-                  color={message.role === "assistant" ? "white" : "white"}
+                  color="white"
                   borderRadius={3}
                   maxWidth="80%"
                   p={2}
+                  sx={{
+                    "& ul, & ol": {
+                      paddingLeft: "20px", // Adjust the indentation of lists
+                      marginTop: 0,
+                      marginBottom: 0,
+                    },
+                    "& ul": {
+                      listStyleType: "disc", // Bullet points for unordered lists
+                    },
+                    "& ol": {
+                      listStyleType: "decimal", // Numbering for ordered lists
+                    },
+                  }}
                 >
                   {message.content === "" && message.role === "assistant" ? (
                     <ThreeDots
@@ -474,7 +487,9 @@ export default function Home() {
                       wrapperClass=""
                     />
                   ) : (
-                    message.content
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {message.content}
+                    </ReactMarkdown>
                   )}
                 </Box>
               </Box>
