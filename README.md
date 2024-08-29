@@ -1,68 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![image](https://github.com/user-attachments/assets/46863f2d-61a0-4461-afda-df2be2f45754)
+
+# GourmetGuide
+
+Welcome to **GourmetGuide** – your personal cooking assistant. Whether you're a seasoned chef or just starting out in the kitchen, GourmetGuide is here to help you create delicious meals with ease. Powered by the Llama 3 model, this assistant generates recipes and provides context-based replies to suit your culinary needs.
+
+[Live Demo](https://gourmetguide.vercel.app/)
+
+## Features
+
+- **Recipe Generation**: Get personalized recipe suggestions using the Llama 3 model. Just tell GourmetGuide what ingredients you have or what you're craving, and it will come up with a recipe for you.
+- **Contextual Replies**: GourmetGuide uses the Groq API to generate context-based replies, making your interactions smooth and natural.
+- **Authentication**: Securely sign in to personalize your interactions.
+- **Save History**: Save your favorite recipes or interactions for later reference (currently in development).
+
+## Future Plans
+
+- **About Me Page**: We're planning to add an "About Me" page to make it easier to navigate and understand how to use GourmetGuide.
+- **Enhanced Application Integration**: We aim to integrate GourmetGuide with a more complex application, providing you with even more options for cooking and meal planning.
+- **Real-Time Location Access**: Future updates will allow GourmetGuide to suggest nearby restaurants and other places to eat, offering expanded options for dining in or eating out.
+
+## Important Notice
+
+We're currently using Firebase's test version for authentication and data management. This setup might not be usable in the future unless we receive sufficient interest and support from users. If you enjoy using GourmetGuide, please let us know!
 
 ## Getting Started
 
+To install and run GourmetGuide locally, follow these steps:
+
 ### Prerequisites
 
-Ensure you have [Node.js](https://nodejs.org/) installed.
+- [Node.js](https://nodejs.org/) installed on your machine.
+- [Git](https://git-scm.com/) installed on your machine.
 
-### Setting Up Environment Variables
+### Installation
 
-Create a `.env.local` file in the root of your project directory and add your environment variables. For example:
+1. **Clone the repository:**
 
-```env
-# Example environment variables
-NEXT_PUBLIC_API_URL=https://api.example.com
-NEXT_PUBLIC_API_KEY=your_api_key
-# API key for OpenAI services
-OPENAI_API_KEY=your_api_key
-```
+   ```bash
+   git clone https://github.com/your-username/gourmetguide.git
 
-### Installing Dependencies
+2. **Navigate to the project directory**
+cd gourmetguide
 
-Install the necessary dependencies by running:
-
-```bash
+3. **Install dependencies:**
 npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
 
-### Running the Development Server
+4. **Create a .env.local file**
 
-First, run the development server:
-
-```bash
+5. **Run the development server:**
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## We welcome contributions to enhance GourmetGuide. Please feel free to open issues or submit pull requests. Together, we can make cooking even more fun and accessible!
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
