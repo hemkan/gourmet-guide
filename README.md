@@ -50,5 +50,5 @@ npm install
 5. **Run the development server:**
 npm run dev
 
-## We welcome contributions to enhance GourmetGuide. Please feel free to open issues or submit pull requests. Together, we can make cooking even more fun and accessible!
+We welcome contributions to enhance GourmetGuide. Please feel free to open issues or submit pull requests. Together, we can make cooking even more fun and accessible!
 
