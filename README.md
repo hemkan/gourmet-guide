@@ -1,54 +1,88 @@
-![image](https://github.com/user-attachments/assets/46863f2d-61a0-4461-afda-df2be2f45754)
+# Gourmet Guide
 
-# GourmetGuide
+Gourmet Guide is a personal cooking assistant designed to help you discover and create delicious recipes with ease. Whether you're seeking new recipe ideas or need advice on cooking techniques, Gourmet Guide provides tailored responses to suit your culinary needs. With a focus on user-friendly interactions and accessibility, this platform is ideal for both beginner and seasoned cooks looking to elevate their culinary skills.
 
-Welcome to **GourmetGuide** – your personal cooking assistant. Whether you're a seasoned chef or just starting out in the kitchen, GourmetGuide is here to help you create delicious meals with ease. Powered by the Llama 3 model, this assistant generates recipes and provides context-based replies to suit your culinary needs.
 
-[Live Demo](https://gourmetguide.vercel.app/)
+[Live Demo](https://gourmetguide.vercel.app/) | [Source Code](https://github.com/hemkan/gourmet-guide)
 
-## Features
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq-007ACC?style=for-the-badge&logo=data:image/svg+xml;base64,YOUR_BASE64_ENCODED_LOGO)
+![Llama 3.1-8B](https://img.shields.io/badge/Llama%203.1--8B-AI%20Model-brightgreen?style=for-the-badge)
+![Material-UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=mui&logoColor=white)
 
-- **Recipe Generation**: Get personalized recipe suggestions using the Llama 3 model. Just tell GourmetGuide what ingredients you have or what you're craving, and it will come up with a recipe for you.
-- **Contextual Replies**: GourmetGuide uses the Groq API to generate context-based replies, making your interactions smooth and natural.
-- **Authentication**: Securely sign in to personalize your interactions.
-- **Save History**: Save your favorite recipes or interactions for later reference (currently in development).
+## Key Features
 
-## Future Plans
+- **AI-Powered Responses**: Powered by the Llama 3.1-8B model, the chatbot provides intelligent and context-aware responses for personalized cooking guidance.
 
-- **About Me Page**: We're planning to add an "About Me" page to make it easier to navigate and understand how to use GourmetGuide.
-- **Enhanced Application Integration**: We aim to integrate GourmetGuide with a more complex application, providing you with even more options for cooking and meal planning.
-- **Real-Time Location Access**: Future updates will allow GourmetGuide to suggest nearby restaurants and other places to eat, offering expanded options for dining in or eating out.
+- **Conversational Recipe Suggestions**: Get personalized recipe ideas by simply chatting with the Gourmet Guide chatbot. Whether you have specific ingredients or are looking for inspiration, the assistant can suggest recipes tailored to your preferences.
 
-## Important Notice
+- **Cooking Tips & Techniques**: Ask for cooking advice or techniques, and receive expert tips to improve your culinary skills. The chatbot can guide you through complex steps or offer suggestions to enhance your dishes.
 
-We're currently using Firebase's test version for authentication and data management. This setup might not be usable in the future unless we receive sufficient interest and support from users. If you enjoy using GourmetGuide, please let us know!
+- **Ingredient-Based Search**: Input the ingredients you have on hand, and Gourmet Guide will suggest recipes that make the most of what you already have in your kitchen.
+
+- **Interactive and Intuitive UI**: Enjoy a user-friendly interface that makes navigating the platform and interacting with the chatbot easy and enjoyable.
+
+- **Save and Access Your Favorites**: Bookmark your favorite recipes or tips for easy access later (coming soon).
 
 ## Getting Started
 
-To install and run GourmetGuide locally, follow these steps:
-
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) installed on your machine.
-- [Git](https://git-scm.com/) installed on your machine.
+Ensure you have [Node.js](https://nodejs.org/) installed.
 
 ### Installation
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/gourmetguide.git
+   git clone https://github.com/hemkan/gourmet-guide.git
+   ```
 
-2. **Navigate to the project directory**
-cd gourmetguide
+2. **Install dependencies:**
 
-3. **Install dependencies:**
-npm install
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
 
-4. **Create a .env.local file**
+3. **Create a .env.local file in the root of your project directory and add your environment variables:**
 
-5. **Run the development server:**
-npm run dev
+   ```env
+   # Example environment variables
+   NEXT_PUBLIC_API_URL=https://api.example.com
+   NEXT_PUBLIC_API_KEY=your_api_key
+   # API key for GROQ services
+   GROQ_API_KEY=your_api_key
+   ```
 
-We welcome contributions to enhance GourmetGuide. Please feel free to open issues or submit pull requests. Together, we can make cooking even more fun and accessible!
 
+4. **Run the development server:**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+   - You should see the Gourmet Guide interface, where you can start interacting with the chatbot.
+   - Begin by typing a question or request, like "Suggest a recipe with chicken and broccoli" or "How do I cook pasta perfectly?"
+
+## Learn More
+
+To learn more about Next.js and deployment, check out the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - Explore Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - An interactive Next.js tutorial.
+- [Next.js Deployment Documentation](https://nextjs.org/docs/deployment) - Detailed guidance on deploying Next.js applications using Vercel.
+- [Deploy Your Next.js App on Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) - Easily deploy your Next.js app with Vercel.
