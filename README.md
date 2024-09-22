@@ -80,9 +80,10 @@ Ensure you have [Node.js](https://nodejs.org/) installed.
 
 ## Learn More
 
-To learn more about Next.js and deployment, check out the following resources:
+To learn more about Swift-Cards and the technologies used, check out the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - Explore Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - An interactive Next.js tutorial.
-- [Next.js Deployment Documentation](https://nextjs.org/docs/deployment) - Detailed guidance on deploying Next.js applications using Vercel.
-- [Deploy Your Next.js App on Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) - Easily deploy your Next.js app with Vercel.
+- [Clerk Documentation](https://clerk.dev/docs) - Learn more about user authentication and account management with Clerk.
+- [Stripe Documentation](https://stripe.com/docs) - Explore Stripe's payment platform and API for processing transactions.
+- [Next.js Documentation](https://nextjs.org/docs) - Get familiar with Next.js features and APIs for building fast web applications.
+- [Firebase Documentation](https://firebase.google.com/docs) - Read about Firebase's real-time database, authentication, and other backend services.
+- [Vercel Deployment Documentation](https://vercel.com/docs) - Find out how to deploy your Next.js apps with Vercel.
